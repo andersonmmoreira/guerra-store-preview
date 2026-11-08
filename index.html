@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guerra Store · Início</title>
+<meta name="description" content="Tecnologia premium, novos e semi novos. Veja ofertas, novidades e fale com a Guerra Store no Instagram.">
+<meta name="theme-color" content="#070102">
+<link rel="icon" href="img/guerra-logo-oficial.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="guerra.css">
+</head>
+<body>
+<header><div class="wrap"><a href="index.html" aria-label="Guerra Store - início"><img src="img/guerra-lettering.svg" alt="Guerra Store"></a>
+<nav aria-label="Principal"><a href="index.html" aria-current="page">Início</a><a href="estoque.html">Estoque</a></nav></div></header>
+
+<main class="wrap">
+  <section class="hero guerra-hero">
+    <div class="hero-copy"><div class="eyebrow">GUERRA STORE</div>
+    <h1>Seu próximo Apple.<br><span>Seu novo momento.</span></h1>
+    <p class="lead">Tecnologia que faz parte do seu mundo. Explore os modelos e fale diretamente com a Guerra Store.</p>
+    <div class="hero-actions"><a class="btn" href="estoque.html">Explorar catálogo <span aria-hidden="true">↗</span></a><a class="text-link" href="https://www.instagram.com/guerrastore/" target="_blank" rel="noopener">@guerrastore ↗</a></div>
+    <div class="hero-signature">TECNOLOGIA · ESTILO · CONEXÃO</div></div>
+    <div class="brand-stage"><img src="img/guerra-logo-oficial.png" alt="Logo oficial Guerra Store" width="1254" height="1254"><span>GUERRA STORE</span></div>
+  </section>
+  <aside class="preview-notice" role="note"><span>PRÉVIA PARA REVISÃO</span> Catálogo ilustrativo. Estoque e condições da Guerra Store ainda serão confirmados.</aside>
+
+  <section class="offers" id="offers" hidden aria-label="Ofertas">
+    <div class="eyebrow sec-h">OFERTAS</div>
+    <div class="otrack" id="otrack"></div>
+    <div class="odots" id="odots"></div>
+  </section>
+
+  <section class="sec" id="s-nov" hidden><div class="sec-top"><div class="eyebrow sec-h">NOVIDADES E PROMOÇÕES</div></div><div class="nv-grid" id="nv"></div></section>
+
+  <section class="sec" id="s-dest"><div class="sec-top"><div class="eyebrow sec-h">EXPLORE OS MODELOS</div><a href="estoque.html">Ver catálogo →</a></div><div class="grid" id="dest" style="padding-bottom:0"></div></section>
+
+  <section class="sec" id="s-como"><div class="sec-top"><div class="eyebrow sec-h">COMO COMPRAR</div></div>
+    <div class="steps">
+      <div class="step"><b>1</b><h3>Escolha o aparelho</h3><p>Veja o estoque, escolha modelo, cor e armazenamento.</p></div>
+      <div class="step"><b>2</b><h3>Chame no Direct</h3><p>Ao consultar um modelo, copiamos sua escolha e abrimos o Direct da Guerra Store.</p></div>
+      <div class="step"><b>3</b><h3>Combine com a gente</h3><p>Valor, pagamento e entrega são tratados direto na conversa.</p></div>
+    </div></section>
+
+  <section class="sec" id="s-par" hidden><div class="sec-top"><div class="eyebrow sec-h">PARCERIAS</div></div><div class="pts" id="pts"></div></section>
+</main>
+
+<footer><div class="wrap">Guerra Store · Instagram @guerrastore · Consulte disponibilidade e condições. Imagens ilustrativas dos produtos novos.</div></footer>
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script src="products.js"></script>
+<script src="app.js"></script>
+<script>
+const $d=document.getElementById.bind(document);
+let NOVID=[],PARC=[],hDemo=false;
+async function loadHome(){
+  const [nv,pc]=await Promise.all([rest("novidades","ativo=eq.true&order=ordem.asc"),rest("parceiros","ativo=eq.true&order=ordem.asc")]);
+  if(nv===null&&pc===null){ // sem Supabase: exemplos
+    NOVID=[];
+    PARC=[];
+  }else{NOVID=(nv||[]).filter(vigente);PARC=pc||[]}
+}
+function renderNovid(){
+  const section=$d("s-nov"),grid=$d("nv");grid.innerHTML="";section.hidden=!NOVID.length;
+  NOVID.forEach(n=>{const article=document.createElement("article");article.className="nv";
+    article.innerHTML=`${n.imagem_url?`<div class="ph"><img src="${esc(n.imagem_url)}" alt="" loading="lazy"></div>`:""}<div class="bd"><h3>${esc(n.titulo)}</h3>${n.texto?`<p>${esc(n.texto)}</p>`:""}${okUrl(n.link)?`<a href="${esc(n.link)}" target="_blank" rel="noopener">Saiba mais ${ARROW}</a>`:""}</div>`;grid.appendChild(article)});
+}
+function renderDest(){
+  const g=$d("dest");g.innerHTML="";
+  const itens=[...NOVOS.map(cardNovo),...SEMI.filter(p=>!p.vendido).slice(0,1).map(cardSemi)].slice(0,4);
+  itens.forEach(c=>g.appendChild(c));
+}
+function renderPar(){
+  const s=$d("s-par"),g=$d("pts");g.innerHTML="";if(!PARC.length){s.hidden=true;return}s.hidden=false;
+  PARC.forEach(p=>{const el=document.createElement(okUrl(p.link)?"a":"div");el.className="pt"+(p.cls?" "+p.cls:"");if(okUrl(p.link)){el.href=p.link;el.target="_blank";el.rel="noopener"}
+    el.title=p.nome;el.innerHTML=p.logo_url&&p.mono?`<span class="plogo" role="img" aria-label="${esc(p.nome)}" style="--m:url('${esc(p.logo_url)}')"></span>`:p.logo_url?`<img src="${esc(p.logo_url)}" alt="${esc(p.nome)}" loading="lazy">`:esc(p.nome);g.appendChild(el)});
+}
+renderDest();
+Promise.all([loadSemi(),loadOfertas(),loadHome()]).then(()=>{renderOfertas();renderNovid();renderDest();renderPar()});
+</script>
+</body>
+</html>

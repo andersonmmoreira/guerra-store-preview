@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guerra Store · Estoque</title>
+<meta name="description" content="Estoque de aparelhos novos e semi novos da Guerra Store. Escolha e chame no Instagram.">
+<meta name="theme-color" content="#070102">
+<link rel="icon" href="img/guerra-logo-oficial.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="guerra.css">
+</head>
+<body>
+<header><div class="wrap"><a href="index.html" aria-label="Guerra Store - início"><img src="img/guerra-lettering.svg" alt="Guerra Store"></a>
+<nav aria-label="Principal"><a href="index.html">Início</a><a href="estoque.html" aria-current="page">Estoque</a></nav></div></header>
+
+<main class="wrap">
+  <section class="hero" style="padding-bottom:28px">
+    <div class="eyebrow">ESTOQUE</div>
+    <h1>Encontre seu próximo Apple.</h1>
+    <p class="lead">Veja os modelos, escolha cor e armazenamento e fale direto com a Guerra Store no Instagram. Já levamos a sua escolha na mensagem.</p>
+  </section>
+  <aside class="preview-notice" role="note"><span>CATÁLOGO ILUSTRATIVO</span> Modelos herdados para demonstração. Consulte o estoque real com a Guerra Store.</aside>
+  <div class="lvl"><div class="lvl-c" id="f-linha" role="group" aria-label="Marca"></div></div>
+  <div class="lvl" id="r-tipo" hidden><div class="lvl-c" id="f-tipo" role="group" aria-label="Categoria"></div></div>
+  <div id="ofwrap"><section class="offers" id="offers-e" hidden aria-label="Ofertas" style="margin-top:28px">
+    <div class="eyebrow sec-h">OFERTAS</div>
+    <div class="otrack" id="otrack-e"></div>
+    <div class="odots" id="odots-e"></div>
+  </section></div>
+  <div class="tabs" id="r-tabs" role="tablist" hidden>
+    <button class="tab" role="tab" aria-selected="true" data-tab="novos">Novos <span class="n" id="n-novos"></span></button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="semi">Semi novos <span class="n" id="n-semi"></span></button>
+  </div>
+  <div id="grid" class="grid"></div>
+</main>
+
+<footer><div class="wrap">Guerra Store · Instagram @guerrastore · Consulte disponibilidade e condições. Imagens ilustrativas dos produtos novos.</div></footer>
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script src="products.js"></script>
+<script src="app.js"></script>
+<script>
+let linha="apple", tipo="iphone";
+const nvl=()=>NOVOS.filter(p=>(p.linha||"apple")===linha&&(p.tipo||"iphone")===tipo);
+const smi=()=>SEMI.filter(p=>(p.linha||"apple")===linha&&(p.tipo||"iphone")===tipo);
+const cnt=(l,t)=>NOVOS.filter(p=>(p.linha||"apple")===l&&(p.tipo||"iphone")===t).length+SEMI.filter(p=>!p.vendido&&(p.linha||"apple")===l&&(p.tipo||"iphone")===t).length;
+function chipsRow(el,items,sel,onpick,vazio){el.innerHTML="";items.forEach(it=>{const b=document.createElement("button");b.type="button";b.className="fchip"+(vazio&&vazio(it)?" vazio":"");b.textContent=it.nome;b.setAttribute("aria-pressed",it.id===sel);b.onclick=()=>onpick(it.id);el.appendChild(b)})}
+function render(){
+  const L=linha?LINHAS.find(l=>l.id===linha):null;
+  chipsRow($("#f-linha"),LINHAS,linha,id=>{if(linha===id){linha=null;tipo=null}else{linha=id;tipo=null}render()},m=>m.tipos.every(t=>!cnt(m.id,t.id)));
+  $("#r-tipo").hidden=!L;
+  if(L) chipsRow($("#f-tipo"),L.tipos,tipo,id=>{tipo=(tipo===id?null:id);render()},t=>!cnt(linha,t.id));
+  const show=!!(L&&tipo);
+  $("#r-tabs").hidden=!show; $("#grid").hidden=!show; $("#ofwrap").hidden=show;
+  if(!show) return;
+  $("#n-novos").textContent=nvl().length; $("#n-semi").textContent=smi().filter(p=>!p.vendido).length;
+  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab===tab));
+  const g=$("#grid"); g.innerHTML="";
+  if(tab==="novos"){
+    if(!nvl().length) g.innerHTML='<div class="empty">Em breve por aqui. Procurando '+esc(L.tipos.find(t=>t.id===tipo).nome)+'? Chame a gente no Instagram: @'+esc(C.instagram)+'.</div>';
+    nvl().forEach(p=>g.appendChild(cardNovo(p)));
+  }else{
+    if(demo) g.innerHTML='<div class="demo">O estoque de seminovos da Guerra Store ainda será cadastrado. Nenhum aparelho da AM Tech foi importado como disponível.</div>';
+    if(!smi().length){g.insertAdjacentHTML("beforeend",'<div class="empty">Nenhum semi novo nesta categoria no momento. Chame a gente no Instagram.</div>');return}
+    smi().forEach(p=>g.appendChild(cardSemi(p)));
+  }
+}
+function setTab(t){tab=t;render()}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{setTab(t.dataset.tab);try{history.replaceState(null,"",t.dataset.tab==="semi"?"#semi":"#novos")}catch(e){}});
+if(location.hash==="#semi")tab="semi";
+setTab(tab); Promise.all([loadSemi(),loadOfertas()]).then(()=>{setTab(tab);renderOfertas("-e")});
+</script>
+</body>
+</html>
