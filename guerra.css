@@ -20,3 +20,15 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
 .club-photo:nth-child(4) img{object-position:center 38%;transform:scale(1.24)}
 .club-photo:nth-child(3):hover img{transform:scale(1.46)}
 .club-photo:nth-child(4):hover img{transform:scale(1.28)}
+.club-photo{padding:14px 14px 90px;border:0;background:linear-gradient(145deg,#2c0b13,#140407 58%,#090102);box-shadow:inset 0 0 0 1px #5b303c,0 24px 55px -42px #a30e28}
+.club-photo img{inset:14px 14px 90px;width:calc(100% - 28px);height:calc(100% - 104px);border-radius:16px}
+.club-photo:before{inset:14px 14px 90px;border-radius:16px}
+.club-photo:after{inset:auto 14px 90px;height:45%;border-radius:0 0 16px 16px}
+.club-photo figcaption{left:22px;right:22px;bottom:20px}
+.club-photo strong{font-size:20px}.club-photo span{margin-top:4px;font-size:12px}
+.club-photo{display:grid;grid-template-rows:minmax(0,1fr) auto;padding:14px;gap:0}
+.club-media{position:relative;min-height:0;overflow:hidden;border-radius:16px;background:#090203}
+.club-photo .club-media img{inset:0;width:100%;height:100%;border-radius:0}
+.club-media:after{content:"";position:absolute;inset:52% 0 0;background:linear-gradient(transparent,#070102b8);pointer-events:none}
+.club-photo:before,.club-photo:after{content:none}
+.club-photo figcaption{position:static;padding:16px 8px 4px}
