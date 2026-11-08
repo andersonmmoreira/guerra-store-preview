@@ -32,9 +32,5 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
 .club-media:after{content:"";position:absolute;inset:52% 0 0;background:linear-gradient(transparent,#070102b8);pointer-events:none}
 .club-photo:before,.club-photo:after{content:none}
 .club-photo figcaption{position:static;padding:16px 8px 4px}
-.club-photo:nth-child(1) .club-media img{transform:scale(1.42)}
-.club-photo:nth-child(1):hover .club-media img{transform:scale(1.46)}
-.club-photo:nth-child(4) .club-media img{transform:scale(1.82)}
-.club-photo:nth-child(4):hover .club-media img{transform:scale(1.86)}
-.club-photo:nth-child(3) .club-media img{object-position:center 50%;transform:scale(1.78)}
-.club-photo:nth-child(3):hover .club-media img{transform:scale(1.82)}
+.club-photo .club-media img{object-position:center;transform:none}
+.club-photo:hover .club-media img{transform:scale(1.025)}
