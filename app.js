@@ -16,8 +16,8 @@ async function loadOfertas(){
   }
   offDemo=true;
   OFERTAS=[
-    {id:"preview-duo",chamada:"Seu próximo Apple está aqui.",condicao:"Explore o catálogo e converse com a Guerra Store. Modelos ilustrativos, sujeitos à confirmação.",alvo_tipo:"novo",alvo_id:"duo",etiqueta:"GUERRA STORE",cta:"Explorar modelo"},
-    {id:"preview-iphone",chamada:"Tecnologia que faz parte do seu mundo.",condicao:"Escolha modelo, cor e armazenamento. Consulte as opções disponíveis no Direct.",alvo_tipo:"novo",alvo_id:"18pro",etiqueta:"SELEÇÃO APPLE",cta:"Ver opções"}
+    {id:"preview-duo",chamada:"Seu próximo Apple está aqui.",condicao:"Explore o catálogo e converse com a Guerra Store. Modelos ilustrativos, sujeitos à confirmação.",alvo_tipo:"novo",alvo_id:"duo",imagem_url:"img/offer-duo.png",etiqueta:"GUERRA STORE",cta:"Explorar modelo"},
+    {id:"preview-iphone",chamada:"Tecnologia que faz parte do seu mundo.",condicao:"Escolha modelo, cor e armazenamento. Consulte as opções disponíveis no WhatsApp.",alvo_tipo:"novo",alvo_id:"18pro",imagem_url:"img/offer-18pro.png",etiqueta:"SELEÇÃO APPLE",cta:"Ver opções"}
   ];
 }
 const oTimers={};
@@ -28,7 +28,7 @@ function renderOfertas(sfx=""){
   OFERTAS.forEach(o=>{
     let img="",bg="#17080c",open=null;
     if(okUrl(o.link)&&o.imagem_url){img=o.imagem_url;bg=o.bg||bg;open=()=>window.open(o.link,"_blank","noopener")}
-    else if(o.alvo_tipo==="novo"){const p=NOVOS.find(x=>x.id===o.alvo_id);if(!p)return;img=p.img;bg=p.bg;open=()=>openNovo(p)}
+    else if(o.alvo_tipo==="novo"){const p=NOVOS.find(x=>x.id===o.alvo_id);if(!p)return;img=o.imagem_url||p.img;bg=o.bg||p.bg;open=()=>openNovo(p)}
     else{const p=SEMI.find(x=>String(x.id)===String(o.alvo_id));if(!p)return;const m=(p.midia||[]).find(x=>x.tipo!=="video");img=m?m.url:"";bg="#000";open=()=>openSemi(p)}
     list.push({o,img,bg,open});
   });
@@ -91,8 +91,8 @@ function openNovo(p){
   ${p.modelos.length>1?'<div class="opt"><label>Modelo</label><div class="chips" id="o-m"></div></div>':""}
   <div class="opt"><label>Cor</label><div class="chips" id="o-c"></div></div>
   <div class="opt"><label>Armazenamento</label><div class="chips" id="o-a"></div></div>
-  <button class="buy" id="buy">Consultar no Instagram ${ARROW}</button>
-  <div class="note">Modelo ilustrativo. Confirme disponibilidade, valor e entrega no Direct.</div></div>`);
+  <button class="buy" id="buy">Consultar no WhatsApp ${ARROW}</button>
+  <div class="note">Modelo ilustrativo. Confirme disponibilidade, valor e entrega pelo WhatsApp.</div></div>`);
   const showVer=()=>{const v=p.modelos[mi].versao,e=$("#o-ver");e.hidden=!v;e.textContent=v?(VER[v]||v):""};
   const drawA=()=>chips($("#o-a"),p.modelos[mi].armaz.map(t=>({t})),i=>ai=i,0);
   if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},0);
@@ -115,15 +115,24 @@ function openSemi(p){
   if(!p.vendido) $("#buy").onclick=()=>buy(`${p.titulo} ${[p.cor,p.armazenamento].filter(Boolean).join(" ")} (semi novo)`,String(p.id).slice(0,6).toUpperCase());
 }
 
-/* ---------- compra: mensagem pronta + abre o Direct ---------- */
+/* ---------- compra: mensagem pronta + abre o WhatsApp ---------- */
 function buy(item,ref){
   const msg=`Olá, Guerra Store! Gostaria de consultar o ${item}.${ref?` (Ref ${ref})`:""} Ainda está disponível?`;
-  const url=`https://ig.me/m/${C.instagram}`;
-  const done=ok=>{toast(ok?"Mensagem copiada! Cole no Direct e envie.":"Copie e envie esta mensagem no Direct:\n"+msg);setTimeout(()=>{ location.href=url},ok?1400:3200)};
-  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(msg).then(()=>done(true),()=>fallback(msg,done)); else fallback(msg,done);
+  window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 }
 function fallback(msg,done){const t=document.createElement("textarea");t.value=msg;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}t.remove();done(ok)}
 function toast(t){const e=$("#toast");e.style.whiteSpace="pre-line";e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),3400)}
+
+/* ---------- contato flutuante ---------- */
+function mountWhatsApp(){
+  if(!C.whatsapp||document.querySelector(".whatsapp-float"))return;
+  const msg=encodeURIComponent("Olá, Guerra Store! Vim pelo site e gostaria de mais informações.");
+  const a=document.createElement("a");
+  a.className="whatsapp-float";a.href=`https://wa.me/${C.whatsapp}?text=${msg}`;a.target="_blank";a.rel="noopener";a.setAttribute("aria-label","Falar com a Guerra Store pelo WhatsApp");
+  a.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3A12.93 12.93 0 0 0 5.1 22.82L3 30l7.36-1.93A12.97 12.97 0 1 0 16.04 3Zm0 23.58c-1.91 0-3.79-.51-5.42-1.48l-.39-.23-4.37 1.15 1.17-4.26-.25-.4a10.61 10.61 0 1 1 9.26 5.22Zm5.82-7.94c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.71.16-.21.32-.82 1.04-1 1.25-.18.21-.37.24-.69.08-.32-.16-1.34-.49-2.56-1.58a9.59 9.59 0 0 1-1.77-2.2c-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.71-1.71-.98-2.35-.26-.62-.52-.54-.71-.55h-.61c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.65s1.14 3.07 1.3 3.28c.16.21 2.24 3.42 5.43 4.8.76.33 1.35.52 1.81.67.76.24 1.45.21 2 .13.61-.09 1.89-.77 2.16-1.51.26-.74.26-1.38.18-1.51-.08-.13-.29-.21-.61-.37Z"/></svg><span>WhatsApp</span>';
+  document.body.appendChild(a);
+}
+document.readyState==="loading"?document.addEventListener("DOMContentLoaded",mountWhatsApp):mountWhatsApp();
 
 /* ---------- cartoes reutilizaveis (inicio e estoque) ---------- */
 const VER={"Brasil":"Versão brasileira, homologada pela Anatel, com chip físico.","EUA":"Versão americana, somente chip virtual (eSIM)."};
