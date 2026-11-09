@@ -16,8 +16,11 @@ async function loadOfertas(){
   }
   offDemo=true;
   OFERTAS=[
-    {id:"preview-duo",chamada:"Seu próximo Apple está aqui.",condicao:"Explore o catálogo e converse com a Guerra Store. Modelos ilustrativos, sujeitos à confirmação.",alvo_tipo:"novo",alvo_id:"duo",imagem_url:"img/offer-duo.png",etiqueta:"GUERRA STORE",cta:"Explorar modelo"},
-    {id:"preview-iphone",chamada:"Tecnologia que faz parte do seu mundo.",condicao:"Escolha modelo, cor e armazenamento. Consulte as opções disponíveis no WhatsApp.",alvo_tipo:"novo",alvo_id:"18pro",imagem_url:"img/offer-18pro.png",etiqueta:"SELEÇÃO APPLE",cta:"Ver opções"}
+    {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7499,preco_por:7299,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7999,preco_por:7699,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:8499,preco_por:8299,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:9499,preco_por:9399,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB por R$ 17.999 · 512 GB por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
   ];
 }
 const oTimers={};
@@ -28,7 +31,7 @@ function renderOfertas(sfx=""){
   OFERTAS.forEach(o=>{
     let img="",bg="#17080c",open=null;
     if(okUrl(o.link)&&o.imagem_url){img=o.imagem_url;bg=o.bg||bg;open=()=>window.open(o.link,"_blank","noopener")}
-    else if(o.alvo_tipo==="novo"){const p=NOVOS.find(x=>x.id===o.alvo_id);if(!p)return;img=o.imagem_url||p.img;bg=o.bg||p.bg;open=()=>openNovo(p)}
+    else if(o.alvo_tipo==="novo"){const p=NOVOS.find(x=>x.id===o.alvo_id);if(!p)return;img=o.imagem_url||p.img;bg=o.bg||p.bg;open=()=>openNovo(p,o.modelo_indice||0)}
     else{const p=SEMI.find(x=>String(x.id)===String(o.alvo_id));if(!p)return;const m=(p.midia||[]).find(x=>x.tipo!=="video");img=m?m.url:"";bg="#000";open=()=>openSemi(p)}
     list.push({o,img,bg,open});
   });
@@ -36,7 +39,7 @@ function renderOfertas(sfx=""){
   box.hidden=false;
   list.forEach((it,i)=>{
     const b=document.createElement("button");b.className="slide";b.setAttribute("aria-label",it.o.chamada);
-    b.innerHTML=`<div class="tx"><span class="lb">${esc(it.o.etiqueta||("OFERTA"+(offDemo?" · EXEMPLO":"")))}</span><h2>${esc(it.o.chamada)}</h2>${it.o.condicao?`<p>${esc(it.o.condicao)}</p>`:""}<span class="go">${esc(it.o.cta||"Ver produto")} ${ARROW}</span></div>
+    b.innerHTML=`<div class="tx"><span class="lb">${esc(it.o.etiqueta||"OFERTA")}</span><h2>${esc(it.o.chamada)}</h2>${it.o.preco_por!=null?`<div class="offer-price"><s>${brl(it.o.preco_de)}</s><strong>${brl(it.o.preco_por)}</strong></div>`:""}${it.o.condicao?`<p>${esc(it.o.condicao)}</p>`:""}<span class="go">${esc(it.o.cta||"Ver produto")} ${ARROW}</span></div>
     <div class="im" style="background:${it.bg}">${it.img?`<img src="${it.img}" alt="" ${i?'loading="lazy"':""}>`:""}${it.o.logo_url?`<img class="offer-logo" src="${esc(it.o.logo_url)}" alt="${esc(it.o.chamada)}">`:""}</div>`;
     b.onclick=it.open;tr.appendChild(b);
     const d=document.createElement("button");d.setAttribute("aria-label","Oferta "+(i+1));d.onclick=()=>goto(i);dt.appendChild(d);
@@ -83,8 +86,8 @@ function chips(el,items,onpick,sel=0){
     b.onclick=()=>{el.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");onpick(i)};el.appendChild(b)});
   onpick(sel);
 }
-function openNovo(p){
-  let mi=0,ci=0,ai=0;
+function openNovo(p,modeloInicial=0){
+  let mi=Math.min(Math.max(modeloInicial,0),p.modelos.length-1),ci=0,ai=0;
   openOv(`<div class="media"><div class="main" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}">`:`<div class="noimg">${esc(p.nome)}</div>`}</div></div>
   <div class="info"><div><div class="eyebrow" style="font-size:11px">NOVO</div><h2 style="margin-top:8px">${esc(p.nome)}</h2></div>
   <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>
@@ -97,10 +100,10 @@ function openNovo(p){
   const storage=()=>p.modelos[mi].armaz[ai], storageTxt=()=>typeof storage()==="string"?storage():storage().nome;
   const availableColors=()=>typeof storage()==="object"&&storage().cores?.length?storage().cores:p.cores;
   const currentPrice=()=>{const a=storage(),cor=availableColors()[ci]?.[0];if(typeof a==="string")return null;return a.precosCor?.[cor]??a.preco??null};
-  const showPrice=()=>{const a=storage(),v=currentPrice(),e=$("#o-price");e.textContent=v!=null?`${a.aPartir?"A partir de ":""}${brl(v)}`:"Consulte disponibilidade"};
+  const showPrice=()=>{const a=storage(),v=currentPrice(),e=$("#o-price");e.innerHTML=v!=null?`${a.precoAnterior?`<s>${brl(a.precoAnterior)}</s>`:""}<strong>${a.aPartir?"A partir de ":""}${brl(v)}</strong>`:"Consulte disponibilidade"};
   const drawC=()=>{ci=0;chips($("#o-c"),availableColors().map(c=>({t:c[0],c:c[1]})),i=>{ci=i;showPrice()},0)};
   const drawA=()=>{ai=0;chips($("#o-a"),p.modelos[mi].armaz.map(a=>({t:typeof a==="string"?a:a.nome})),i=>{ai=i;drawC()},0)};
-  if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},0); else drawA();
+  if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},mi); else drawA();
   showVer();
   $("#buy").onclick=()=>{const cor=availableColors()[ci][0],valor=currentPrice();buy(`${p.modelos[mi].nome} ${cor} ${storageTxt()}${valor!=null?" por "+brl(valor):""}${p.modelos[mi].versao?", versão "+(p.modelos[mi].versao==="EUA"?"EUA (chip virtual)":"Brasil (Anatel, com chip)"):""} (novo)`,"")};
 }
@@ -142,14 +145,14 @@ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",mou
 /* ---------- cartoes reutilizaveis (inicio e estoque) ---------- */
 const VER={"Brasil":"Versão brasileira, homologada pela Anatel, com chip físico.","EUA":"Versão americana, somente chip virtual (eSIM)."};
 const brl=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2});
-function menorPreco(p){const vs=[];p.modelos.forEach(m=>m.armaz.forEach(a=>{if(typeof a!=="object")return;if(a.preco!=null)vs.push({valor:a.preco,aPartir:a.aPartir});if(a.precosCor)Object.values(a.precosCor).forEach(v=>vs.push({valor:v,aPartir:false}))}));if(!vs.length)return null;const min=Math.min(...vs.map(x=>x.valor));return {valor:min,aPartir:vs.some(x=>x.valor===min&&x.aPartir)||vs.some(x=>x.valor>min)}}
+function menorPreco(p){const vs=[];p.modelos.forEach(m=>m.armaz.forEach(a=>{if(typeof a!=="object")return;if(a.preco!=null)vs.push({valor:a.preco,aPartir:a.aPartir,anterior:a.precoAnterior});if(a.precosCor)Object.values(a.precosCor).forEach(v=>vs.push({valor:v,aPartir:false}))}));if(!vs.length)return null;const min=Math.min(...vs.map(x=>x.valor)),item=vs.find(x=>x.valor===min);return {valor:min,aPartir:item.aPartir||vs.some(x=>x.valor>min),anterior:item.anterior}}
 function verTxt(p){const v=[...new Set(p.modelos.map(m=>m.versao).filter(Boolean))];return v.length?"versão "+v.join(" e "):"escolha o armazenamento"}
 function cardNovo(p){
   const b=document.createElement("button"); b.className="card";
   const mp=menorPreco(p);
   b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
   <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}</div>
-  <div class="card-price">${mp?`${mp.aPartir?"A partir de ":""}${brl(mp.valor)}`:"Consulte disponibilidade"}</div>
+  <div class="card-price">${mp?`${mp.anterior?`<s>${brl(mp.anterior)}</s>`:""}<strong>${mp.aPartir?"A partir de ":""}${brl(mp.valor)}</strong>`:"Consulte disponibilidade"}</div>
   <div class="dots">${p.cores.map(c=>`<i style="background:${c[1]}" title="${esc(c[0])}"></i>`).join("")}</div>
   <div class="cta-row"><span>Ver opções</span>${ARROW}</div></div>`;
   b.onclick=()=>openNovo(p); return b;

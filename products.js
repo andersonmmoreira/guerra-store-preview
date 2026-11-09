@@ -152,6 +152,21 @@ ATUALIZACOES.forEach(atualizacao => {
   if (mapa.size) produto.cores = [...mapa.values()];
 });
 
+// Ofertas de Black Friday exibidas na página inicial e refletidas no catálogo.
+[
+  ["17pro", "iPhone 17 Pro", "256 GB", 7299, 7499],
+  ["17pro", "iPhone 17 Pro Max", "256 GB", 7699, 7999],
+  ["18pro", "iPhone 18 Pro", "256 GB", 8299, 8499],
+  ["18pro", "iPhone 18 Pro Max", "256 GB", 9399, 9499],
+  ["duo", "iPhone Duo", "256 GB", 17999, 18999],
+  ["duo", "iPhone Duo", "512 GB", 18999, 21999]
+].forEach(([id, modelo, capacidade, preco, precoAnterior]) => {
+  const produto = window.NOVOS.find(p => p.id === id);
+  const sku = produto?.modelos.find(m => m.nome === modelo);
+  const opcao = sku?.armaz.find(a => typeof a === "object" && a.nome === capacidade);
+  if (opcao) Object.assign(opcao, { preco, precoAnterior, blackFriday: true, aPartir: false });
+});
+
 window.NOVOS.forEach(p => {
   p.bg = "#16080c";
   p.preview = !p.modelos.some(m => m.armaz.some(a => typeof a === "object" && (a.preco != null || a.precosCor)));
