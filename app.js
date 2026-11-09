@@ -16,11 +16,11 @@ async function loadOfertas(){
   }
   offDemo=true;
   OFERTAS=[
+    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB por R$ 17.999 · 512 GB por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:8499,preco_por:8299,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:9499,preco_por:9399,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
     {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7499,preco_por:7299,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7999,preco_por:7699,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:8499,preco_por:8299,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:9499,preco_por:9399,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB por R$ 17.999 · 512 GB por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
+    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7999,preco_por:7699,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
   ];
 }
 const oTimers={};
