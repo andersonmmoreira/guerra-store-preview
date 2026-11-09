@@ -20,6 +20,13 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
 .club-photo:nth-child(3) img{object-position:center 53%;transform:scale(1.42)}
 .club-photo:nth-child(4) img{object-position:center 38%;transform:scale(1.24)}
 .club-photo:nth-child(3):hover img{transform:scale(1.46)}
+
+/* Integra as artes Black Friday ao card sem revelar o retângulo da imagem. */
+.slide{background:radial-gradient(ellipse at 76% 48%,#360912 0,#1c070b 44%,#0c0204 100%)}
+.slide .tx{position:relative;z-index:2}
+.slide .im{overflow:hidden;background:radial-gradient(ellipse at 58% 50%,#4a0715 0,#1a0308 52%,#0c0204 100%)!important}
+.slide .im img:not(.offer-logo){inset:-3%;width:106%;height:106%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 100%);mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 100%)}
+@media(max-width:720px){.slide .im img:not(.offer-logo){inset:-4%;width:108%;height:108%;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 68%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 68%,transparent 100%)}}
 .club-photo:nth-child(4):hover img{transform:scale(1.28)}
 .club-photo{padding:14px 14px 90px;border:0;background:linear-gradient(145deg,#2c0b13,#140407 58%,#090102);box-shadow:inset 0 0 0 1px #5b303c,0 24px 55px -42px #a30e28}
 .club-photo img{inset:14px 14px 90px;width:calc(100% - 28px);height:calc(100% - 104px);border-radius:16px}
