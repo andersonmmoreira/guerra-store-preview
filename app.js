@@ -16,11 +16,11 @@ async function loadOfertas(){
   }
   offDemo=true;
   OFERTAS=[
-    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB por R$ 17.999 · 512 GB por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:8499,preco_por:8299,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:9499,preco_por:9399,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7499,preco_por:7299,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,imagem_url:"img/offer-17pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7999,preco_por:7699,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,imagem_url:"img/offer-17pro-bordo.png",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
+    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB por R$ 17.999 · 512 GB por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:8499,preco_por:8299,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro-bordo.png",imagem_classe:"offer-art-feather",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:9499,preco_por:9399,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro-bordo.png",imagem_classe:"offer-art-feather",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7499,preco_por:7299,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,imagem_url:"img/offer-17pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"Oferta Black Friday. Consulte cores e disponibilidade.",preco_de:7999,preco_por:7699,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,imagem_url:"img/offer-17pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
   ];
 }
 const oTimers={};
@@ -40,7 +40,7 @@ function renderOfertas(sfx=""){
   list.forEach((it,i)=>{
     const b=document.createElement("button");b.className="slide";b.setAttribute("aria-label",it.o.chamada);
     b.innerHTML=`<div class="tx"><span class="lb">${esc(it.o.etiqueta||"OFERTA")}</span><h2>${esc(it.o.chamada)}</h2>${it.o.preco_por!=null?`<div class="offer-price"><s>${brl(it.o.preco_de)}</s><strong>${brl(it.o.preco_por)}</strong></div>`:""}${it.o.condicao?`<p>${esc(it.o.condicao)}</p>`:""}<span class="go">${esc(it.o.cta||"Ver produto")} ${ARROW}</span></div>
-    <div class="im" style="background:${it.bg}">${it.img?`<img src="${it.img}" alt="" ${i?'loading="lazy"':""}>`:""}${it.o.logo_url?`<img class="offer-logo" src="${esc(it.o.logo_url)}" alt="${esc(it.o.chamada)}">`:""}</div>`;
+    <div class="im" style="background:${it.bg}">${it.img?`<img class="${esc(it.o.imagem_classe||"offer-art-feather")}" src="${it.img}" alt="" ${i?'loading="lazy"':""}>`:""}${it.o.logo_url?`<img class="offer-logo" src="${esc(it.o.logo_url)}" alt="${esc(it.o.chamada)}">`:""}</div>`;
     b.onclick=it.open;tr.appendChild(b);
     const d=document.createElement("button");d.setAttribute("aria-label","Oferta "+(i+1));d.onclick=()=>goto(i);dt.appendChild(d);
   });
