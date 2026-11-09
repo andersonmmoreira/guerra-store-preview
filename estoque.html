@@ -16,6 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261108-5">
 <link rel="stylesheet" href="guerra.css?v=20261109-3">
+<link rel="stylesheet" href="studio.css?v=20261109-1">
 </head>
 <body>
 <header><div class="wrap"><a href="index.html" aria-label="Guerra Store - início"><img src="img/guerra-lettering.svg" alt="Guerra Store"></a>
@@ -79,5 +80,6 @@ document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{setTab(t.dataset.tab
 if(location.hash==="#semi")tab="semi";
 setTab(tab); Promise.all([loadSemi(),loadOfertas()]).then(()=>{setTab(tab);renderOfertas("-e")});
 </script>
+<script src="studio.js?v=20261109-1" defer></script>
 </body>
 </html>
