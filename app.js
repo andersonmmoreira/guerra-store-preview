@@ -19,11 +19,11 @@ async function loadOfertas(){
   }
   offDemo=true;
   OFERTAS=[
-    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB: de R$ 18.999 por R$ 17.999 · 512 GB: de R$ 21.499 por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/offer-duo-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"512 GB: de R$ 10.999 por R$ 9.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:9499,preco_por:8499,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/offer-18pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"512 GB: de R$ 12.499 por R$ 11.499. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:10499,preco_por:9499,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/offer-18pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"512 GB: de R$ 9.999 por R$ 8.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:7999,preco_por:7499,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,imagem_url:"img/offer-17pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
-    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"512 GB: de R$ 10.499 por R$ 9.499. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:8999,preco_por:7999,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,imagem_url:"img/offer-17pro-cutout.png",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
+    {id:"bf-duo",chamada:"iPhone Duo · Black Friday",condicao:"256 GB: de R$ 18.999 por R$ 17.999 · 512 GB: de R$ 21.499 por R$ 18.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:18999,preco_por:17999,alvo_tipo:"novo",alvo_id:"duo",modelo_indice:0,imagem_url:"img/product-duo-clean-v2.webp",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18pro",chamada:"iPhone 18 Pro · 256 GB",condicao:"512 GB: de R$ 10.999 por R$ 9.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:9499,preco_por:8499,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:0,imagem_url:"img/iphone-18-pro-clean-v2.webp",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-18promax",chamada:"iPhone 18 Pro Max · 256 GB",condicao:"512 GB: de R$ 12.499 por R$ 11.499. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:10499,preco_por:9499,alvo_tipo:"novo",alvo_id:"18pro",modelo_indice:1,imagem_url:"img/iphone-18-pro-clean-v2.webp",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-17pro",chamada:"iPhone 17 Pro · 256 GB",condicao:"512 GB: de R$ 9.999 por R$ 8.999. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:7999,preco_por:7499,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:0,imagem_url:"img/product-17pro-clean-v2.webp",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"},
+    {id:"bf-17promax",chamada:"iPhone 17 Pro Max · 256 GB",condicao:"512 GB: de R$ 10.499 por R$ 9.499. Para 1 TB e 2 TB, consulte disponibilidade.",preco_de:8999,preco_por:7999,alvo_tipo:"novo",alvo_id:"17pro",modelo_indice:1,imagem_url:"img/product-17pro-clean-v2.webp",imagem_classe:"offer-art-cutout",etiqueta:"BLACK FRIDAY",cta:"Ver oferta"}
   ];
 }
 const oTimers={};
@@ -71,8 +71,8 @@ async function loadSemi(){
   if(window.SEMI_LISTA&&SEMI_LISTA.length){SEMI=SEMI_LISTA;return}
   demo=true;
   SEMI=[
-    {id:"demo0001",titulo:"iPhone 17 Pro Max",cor:"Laranja-cósmico",armazenamento:"256 GB",bateria:94,estado:"Excelente, sem marcas de uso",obs:"Exemplo de anúncio. Cadastre os reais pelo painel (admin.html).",midia:[{tipo:"image",url:"img/17pro.jpg"}]},
-    {id:"demo0002",titulo:"iPhone 17 Pro",cor:"Azul-escuro",armazenamento:"512 GB",bateria:91,estado:"Muito bom",obs:"Acompanha caixa e cabo.",midia:[{tipo:"image",url:"img/17pro.jpg"}],vendido:false}
+    {id:"demo0001",titulo:"iPhone 17 Pro Max",cor:"Laranja-cósmico",armazenamento:"256 GB",bateria:94,estado:"Excelente, sem marcas de uso",obs:"Exemplo de anúncio. Cadastre os reais pelo painel (admin.html).",midia:[{tipo:"image",url:"img/product-17pro-clean-v2.webp"}]},
+    {id:"demo0002",titulo:"iPhone 17 Pro",cor:"Azul-escuro",armazenamento:"512 GB",bateria:91,estado:"Muito bom",obs:"Acompanha caixa e cabo.",midia:[{tipo:"image",url:"img/product-17pro-clean-v2.webp"}],vendido:false}
   ];
 }
 

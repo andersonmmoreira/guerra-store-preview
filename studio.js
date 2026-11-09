@@ -4,7 +4,7 @@ const clean=s=>(s||'').replace(/\s+/g,' ').trim();
 const targets=()=>[...document.querySelectorAll('.card,.slide,.club-photo,.tip-slide,.business-category')];
 function getContent(el){
  const image=el.querySelector('img:not(.offer-logo)'),src=image?.getAttribute('src');
- const cutouts={'img/duo.jpg':'img/offer-duo-cutout.png','img/17pro.jpg':'img/offer-17pro-cutout.png','img/18pro.jpg':'img/offer-18pro-cutout.png'};
+ const cutouts={};
  const copy=clean(el.querySelector('.tx>p,.tip-slide>p,figcaption>span,.business-category>p')?.textContent),date=el.querySelector('time')?.textContent;
  return {title:clean(el.querySelector('h2,h3,figcaption strong')?.textContent)||'Guerra Store',image:cutouts[src]||src||(document.body.classList.contains('business-page')?'img/diego-guerra-biografia.jpg':''),price:clean(el.querySelector('.card-price strong,.offer-price strong')?.textContent),old:clean(el.querySelector('.card-price s,.offer-price s')?.textContent),copy:date?clean(date)+' · '+copy:copy,club:el.matches('.club-photo'),gift:clean(el.querySelector('.phone-gift-copy strong')?.textContent),business:el.matches('.business-category')};
 }

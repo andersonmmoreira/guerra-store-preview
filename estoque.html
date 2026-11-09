@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261108-5">
-<link rel="stylesheet" href="guerra.css?v=20261109-3">
+<link rel="stylesheet" href="guerra.css?v=20261109-4">
 <link rel="stylesheet" href="studio.css?v=20261109-2">
 </head>
 <body>
@@ -47,8 +47,8 @@
 <div class="ov" id="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
 <script src="config.js?v=20261108-4"></script>
-<script src="products.js?v=20261109-2"></script>
-<script src="app.js?v=20261109-3"></script>
+<script src="products.js?v=20261109-4"></script>
+<script src="app.js?v=20261109-5"></script>
 <script>
 let linha="apple", tipo="iphone";
 const nvl=()=>NOVOS.filter(p=>(p.linha||"apple")===linha&&(p.tipo||"iphone")===tipo);
@@ -80,6 +80,6 @@ document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{setTab(t.dataset.tab
 if(location.hash==="#semi")tab="semi";
 setTab(tab); Promise.all([loadSemi(),loadOfertas()]).then(()=>{setTab(tab);renderOfertas("-e")});
 </script>
-<script src="studio.js?v=20261109-3" defer></script>
+<script src="studio.js?v=20261109-5" defer></script>
 </body>
 </html>
