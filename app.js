@@ -96,9 +96,9 @@ function openNovo(p,modeloInicial=0){
   <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>${phoneGift(p)}
   ${p.modelos.length>1?'<div class="opt"><label>Modelo</label><div class="chips" id="o-m"></div></div>':""}
   <div class="opt"><label>Cor</label><div class="chips" id="o-c"></div></div>
-  <div class="opt"><label>Armazenamento</label><div class="chips" id="o-a"></div></div>
+  <div class="opt"><label>${esc(p.optLabel||"Armazenamento")}</label><div class="chips" id="o-a"></div></div>
   <button class="buy" id="buy">Consultar no WhatsApp ${ARROW}</button>
-  <div class="note">${p.preview?"Modelo ilustrativo. ":""}Confirme disponibilidade e condições de pagamento pelo WhatsApp.</div></div>`);
+  <div class="note">${p.preview&&!p.consultaPreco?"Modelo ilustrativo. ":""}Confirme disponibilidade e condições de pagamento pelo WhatsApp.</div></div>`);
   const showVer=()=>{const v=p.modelos[mi].versao,e=$("#o-ver");e.hidden=!v;e.textContent=v?(VER[v]||v):""};
   const storage=()=>p.modelos[mi].armaz[ai], storageTxt=()=>typeof storage()==="string"?storage():storage().nome;
   const availableColors=()=>typeof storage()==="object"&&storage().cores?.length?storage().cores:p.cores;
@@ -154,8 +154,8 @@ function verTxt(p){const v=[...new Set(p.modelos.map(m=>m.versao).filter(Boolean
 function cardNovo(p){
   const b=document.createElement("button"); b.className="card";
   const mp=menorPreco(p);
-  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
-  <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}</div>
+  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.consultaPreco?"CONSULTE O VALOR":p.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
+  <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.resumo?esc(p.resumo):`${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}`}</div>
   <div class="card-price">${mp?`${mp.anterior?`<s>${brl(mp.anterior)}</s>`:""}<strong>${mp.aPartir?"A partir de ":""}${brl(mp.valor)}</strong>`:"Consulte disponibilidade"}</div>
   <div class="dots">${p.cores.map(c=>`<i style="background:${c[1]}" title="${esc(c[0])}"></i>`).join("")}</div>
   ${phoneGift(p)}<div class="cta-row"><span>Ver opções</span>${ARROW}</div></div>`;

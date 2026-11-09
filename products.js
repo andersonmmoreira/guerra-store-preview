@@ -6,7 +6,8 @@ window.LINHAS = [
   { id: "apple", nome: "Apple", tipos: [
     { id: "iphone", nome: "iPhone" }, { id: "macbook", nome: "Mac" }, { id: "ipad", nome: "iPad" },
     { id: "watch", nome: "Apple Watch" }, { id: "airpods", nome: "AirPods" }, { id: "acessorios", nome: "Acessórios" } ] },
-  { id: "garmin", nome: "Garmin", tipos: [ { id: "relogios", nome: "Relógios" } ] },
+  { id: "garmin", nome: "Garmin", tipos: [ { id: "relogios", nome: "Relógios" }, { id: "pulseiras", nome: "Pulseiras inteligentes" } ] },
+  { id: "google", nome: "Google Fitbit", tipos: [ { id: "pulseiras", nome: "Pulseiras inteligentes" } ] },
   { id: "dji", nome: "DJI", tipos: [ { id: "drones", nome: "Drones" }, { id: "osmo", nome: "Osmo" } ] }
 ];
 
@@ -197,6 +198,18 @@ ATUALIZACOES.forEach(atualizacao => {
   const opcao = sku?.armaz.find(a => typeof a === "object" && a.nome === capacidade);
   if (opcao) Object.assign(opcao, { preco, precoAnterior, blackFriday: true, aPartir: false });
 });
+
+
+// Relógios e pulseiras enviados pela Guerra Store em 09/11/2026.
+// Fotos oficiais recortadas; preços Garmin/Google aguardam informação da loja.
+window.NOVOS.push(
+  { id: "garmin165", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 165", img: "img/garmin-165.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 165", "Forerunner 165")] },
+  { id: "garmin265", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 265", img: "img/garmin-265.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 265", "Forerunner 265")] },
+  { id: "garmin55", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 55", img: "img/garmin-55.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 55", "Forerunner 55")] },
+  { id: "garmincirqa", linha: "garmin", tipo: "pulseiras", nome: "Garmin CIRQA Smart Band", img: "img/garmin-cirqa.webp", optLabel: "Tamanho", resumo: "Preto · Pulseira inteligente sem tela", consultaPreco: true, cores: cores("Preto"), modelos: [M("Garmin CIRQA Smart Band", "S–M")] },
+  { id: "fitbitair", linha: "google", tipo: "pulseiras", nome: "Google Fitbit Air", img: "img/google-fitbit-air.webp", optLabel: "Tamanho", resumo: "Preto · Pulseira inteligente sem tela", consultaPreco: true, cores: cores("Preto"), modelos: [M("Google Fitbit Air", "Consulte o tamanho")] },
+  { id: "watch12", linha: "apple", tipo: "watch", nome: "Apple Watch Series 12", img: "img/watch12.webp", optLabel: "Tamanho", resumo: "42 e 46 mm · Cores sob consulta", cores: [["Consultar cores", "#A8A399"]], modelos: [{nome: "Apple Watch Series 12", armaz: [{nome: "42 mm", preco: 3499, precoAnterior: 3999}, {nome: "46 mm", preco: 3799, precoAnterior: 4499}]}] }
+);
 
 window.NOVOS.forEach(p => {
   p.bg = "#16080c";
