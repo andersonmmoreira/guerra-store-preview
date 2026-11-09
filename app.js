@@ -1,6 +1,8 @@
 const C=window.GUERRA, $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ARROW='<span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#070102" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+const hasPhoneGift=p=>/\biphone\b/i.test(typeof p==="string"?p:p?.nome||p?.titulo||"");
+const phoneGift=p=>hasPhoneGift(p)?'<div class="phone-gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h18v4H3zM5 12v9h14v-9M12 8v13"/><path d="M12 8H8.5A2.5 2.5 0 1 1 11 5.5L12 8Zm0 0h3.5A2.5 2.5 0 1 0 13 5.5L12 8Z"/></svg><span class="phone-gift-copy"><small>VOCÊ GANHA</small><strong>Capinha + película</strong></span><span class="phone-gift-free">GRÁTIS</span></div>':"";
 let SEMI=[], demo=false, tab="novos";
 
 /* ---------- dados dos semi novos ---------- */
@@ -33,13 +35,14 @@ function renderOfertas(sfx=""){
     if(okUrl(o.link)&&o.imagem_url){img=o.imagem_url;bg=o.bg||bg;open=()=>window.open(o.link,"_blank","noopener")}
     else if(o.alvo_tipo==="novo"){const p=NOVOS.find(x=>x.id===o.alvo_id);if(!p)return;img=o.imagem_url||p.img;bg=o.bg||p.bg;open=()=>openNovo(p,o.modelo_indice||0)}
     else{const p=SEMI.find(x=>String(x.id)===String(o.alvo_id));if(!p)return;const m=(p.midia||[]).find(x=>x.tipo!=="video");img=m?m.url:"";bg="#000";open=()=>openSemi(p)}
-    list.push({o,img,bg,open});
+    const product=o.alvo_tipo==="novo"?NOVOS.find(p=>p.id===o.alvo_id):SEMI.find(p=>String(p.id)===String(o.alvo_id));
+    list.push({o,img,bg,open,gift:phoneGift(product||o.chamada)});
   });
   if(!list.length){box.hidden=true;return}
   box.hidden=false;
   list.forEach((it,i)=>{
     const b=document.createElement("button");b.className="slide";b.setAttribute("aria-label",it.o.chamada);
-    b.innerHTML=`<div class="tx"><span class="lb">${esc(it.o.etiqueta||"OFERTA")}</span><h2>${esc(it.o.chamada)}</h2>${it.o.preco_por!=null?`<div class="offer-price"><s>${brl(it.o.preco_de)}</s><strong>${brl(it.o.preco_por)}</strong></div>`:""}${it.o.condicao?`<p>${esc(it.o.condicao)}</p>`:""}<span class="go">${esc(it.o.cta||"Ver produto")} ${ARROW}</span></div>
+    b.innerHTML=`<div class="tx"><span class="lb">${esc(it.o.etiqueta||"OFERTA")}</span><h2>${esc(it.o.chamada)}</h2>${it.o.preco_por!=null?`<div class="offer-price"><s>${brl(it.o.preco_de)}</s><strong>${brl(it.o.preco_por)}</strong></div>`:""}${it.o.condicao?`<p>${esc(it.o.condicao)}</p>`:""}${it.gift}<span class="go">${esc(it.o.cta||"Ver produto")} ${ARROW}</span></div>
     <div class="im" style="background:${it.bg}">${it.img?`<img class="${esc(it.o.imagem_classe||"offer-art-feather")}" src="${it.img}" alt="" ${i?'loading="lazy"':""}>`:""}${it.o.logo_url?`<img class="offer-logo" src="${esc(it.o.logo_url)}" alt="${esc(it.o.chamada)}">`:""}</div>`;
     b.onclick=it.open;tr.appendChild(b);
     const d=document.createElement("button");d.setAttribute("aria-label","Oferta "+(i+1));d.onclick=()=>goto(i);dt.appendChild(d);
@@ -90,7 +93,7 @@ function openNovo(p,modeloInicial=0){
   let mi=Math.min(Math.max(modeloInicial,0),p.modelos.length-1),ci=0,ai=0;
   openOv(`<div class="media"><div class="main" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}">`:`<div class="noimg">${esc(p.nome)}</div>`}</div></div>
   <div class="info"><div><div class="eyebrow" style="font-size:11px">NOVO</div><h2 style="margin-top:8px">${esc(p.nome)}</h2></div>
-  <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>
+  <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>${phoneGift(p)}
   ${p.modelos.length>1?'<div class="opt"><label>Modelo</label><div class="chips" id="o-m"></div></div>':""}
   <div class="opt"><label>Cor</label><div class="chips" id="o-c"></div></div>
   <div class="opt"><label>Armazenamento</label><div class="chips" id="o-a"></div></div>
@@ -114,6 +117,7 @@ function openSemi(p){
   ${ms.length>1?`<div class="thumbs" id="th">${ms.map((m,i)=>`<button data-i="${i}" class="${i?"":"on"}">${m.tipo==="video"?`<video src="${m.url}#t=0.1" muted preload="metadata"></video><span class="play">▶</span>`:`<img src="${m.url}" alt="">`}</button>`).join("")}</div>`:""}</div>
   <div class="info"><div><div class="eyebrow" style="font-size:11px">SEMI NOVO · REF ${esc(String(p.id).slice(0,6).toUpperCase())}</div><h2 style="margin-top:8px">${esc(p.titulo)}</h2></div>
   <div class="specs">${sp.map(s=>`<div class="spec"><b>${s[0]}</b>${esc(s[1])}</div>`).join("")}</div>
+  ${phoneGift(p)}
   ${p.obs?`<p class="obs">${esc(p.obs)}</p>`:""}
   <button class="buy" id="buy" ${p.vendido?"disabled":""}>${p.vendido?"Já vendido":"Tenho interesse"} ${p.vendido?"":ARROW}</button>
   <div class="note">Modelo ilustrativo. Confirme disponibilidade, valor e entrega no Direct.</div></div>`);
@@ -125,7 +129,7 @@ function openSemi(p){
 
 /* ---------- compra: mensagem pronta + abre o WhatsApp ---------- */
 function buy(item,ref){
-  const msg=`Olá, Guerra Store! Gostaria de consultar o ${item}.${ref?` (Ref ${ref})`:""} Ainda está disponível?`;
+  const msg=`Olá, Guerra Store! Gostaria de consultar o ${item}.${ref?` (Ref ${ref})`:""} Ainda está disponível?${hasPhoneGift(item)?" Quero também a capinha e a película grátis.":""}`;
   window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 }
 function fallback(msg,done){const t=document.createElement("textarea");t.value=msg;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}t.remove();done(ok)}
@@ -154,7 +158,7 @@ function cardNovo(p){
   <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}</div>
   <div class="card-price">${mp?`${mp.anterior?`<s>${brl(mp.anterior)}</s>`:""}<strong>${mp.aPartir?"A partir de ":""}${brl(mp.valor)}</strong>`:"Consulte disponibilidade"}</div>
   <div class="dots">${p.cores.map(c=>`<i style="background:${c[1]}" title="${esc(c[0])}"></i>`).join("")}</div>
-  <div class="cta-row"><span>Ver opções</span>${ARROW}</div></div>`;
+  ${phoneGift(p)}<div class="cta-row"><span>Ver opções</span>${ARROW}</div></div>`;
   b.onclick=()=>openNovo(p); return b;
 }
 function cardSemi(p){
@@ -162,7 +166,7 @@ function cardSemi(p){
   const th=m?(m.tipo==="video"?`<video src="${m.url}#t=0.1" muted playsinline preload="metadata"></video>`:`<img src="${m.url}" alt="${esc(p.titulo)}" loading="lazy">`):`<img src="img/consulte.webp" alt="Consulte as imagens com o vendedor" loading="lazy">`;
   b.innerHTML=`<div class="ph${m?"":" fit"}" style="background:#17080c">${th}<span class="badge ${p.vendido?"vendido":""}">${p.vendido?"Vendido":"Semi novo"}</span></div>
   <div class="bd"><h3>${esc(p.titulo)}</h3><div class="sub">${[p.cor,p.armazenamento,p.bateria?("Bateria "+p.bateria+"%"):""].filter(Boolean).map(esc).join(" · ")}</div>
-  <div class="cta-row"><span>${p.vendido?"Ver detalhes":"Ver fotos e vídeos"}</span>${ARROW}</div></div>`;
+  ${p.vendido?"":phoneGift(p)}<div class="cta-row"><span>${p.vendido?"Ver detalhes":"Ver fotos e vídeos"}</span>${ARROW}</div></div>`;
   b.onclick=()=>openSemi(p); return b;
 }
 const okUrl=u=>/^https?:\/\//i.test(u||"");
