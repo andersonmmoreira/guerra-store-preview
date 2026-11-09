@@ -156,10 +156,12 @@ ATUALIZACOES.forEach(atualizacao => {
 [
   ["17pro", "iPhone 17 Pro", "256 GB", 7299, 7499],
   ["17pro", "iPhone 17 Pro Max", "256 GB", 7699, 7999],
-  ["18pro", "iPhone 18 Pro", "256 GB", 8299, 8499],
-  ["18pro", "iPhone 18 Pro Max", "256 GB", 9399, 9499],
+  ["18pro", "iPhone 18 Pro", "256 GB", 8499, 9499],
+  ["18pro", "iPhone 18 Pro", "512 GB", 9999, 10999],
+  ["18pro", "iPhone 18 Pro Max", "256 GB", 9499, 10499],
+  ["18pro", "iPhone 18 Pro Max", "512 GB", 11499, 12499],
   ["duo", "iPhone Duo", "256 GB", 17999, 18999],
-  ["duo", "iPhone Duo", "512 GB", 18999, 21999]
+  ["duo", "iPhone Duo", "512 GB", 18999, 21499]
 ].forEach(([id, modelo, capacidade, preco, precoAnterior]) => {
   const produto = window.NOVOS.find(p => p.id === id);
   const sku = produto?.modelos.find(m => m.nome === modelo);
