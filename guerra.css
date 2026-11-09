@@ -59,3 +59,7 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
 /* A máscara termina transparente em cada borda real da arte da linha 18. */
 .slide .im img.offer-art-cutout:not(.offer-logo){inset:50% auto auto 4%;width:92%;height:auto;transform:translateY(-50%);object-fit:contain;-webkit-mask-image:none;mask-image:none;filter:none}
 .slide .im img[src*="offer-18pro-cutout"]{clip-path:polygon(9.8% 11%,10.5% 8%,13% 5.3%,16% 4.7%,19% 5.2%,28.6% 9%,30% 6%,33% 4.7%,35% 4.7%,47% 9.2%,49% 5.5%,52% 4.7%,54% 5.3%,65.5% 9.2%,67% 6%,70% 4.7%,73% 5%,88% 10%,90% 13%,90% 92%,88% 95.5%,12% 95.5%,9.8% 92%)}
+@media(max-width:720px){
+  .slide .im{height:clamp(240px,64vw,340px)}
+  .slide .im img.offer-art-cutout:not(.offer-logo){inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);transform:none;object-fit:contain;object-position:center}
+}
