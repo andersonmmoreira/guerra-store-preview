@@ -6,8 +6,6 @@ window.LINHAS = [
   { id: "apple", nome: "Apple", tipos: [
     { id: "iphone", nome: "iPhone" }, { id: "macbook", nome: "Mac" }, { id: "ipad", nome: "iPad" },
     { id: "watch", nome: "Apple Watch" }, { id: "airpods", nome: "AirPods" }, { id: "acessorios", nome: "Acessórios" } ] },
-  { id: "samsung", nome: "Samsung", tipos: [
-    { id: "galaxy", nome: "Galaxy" }, { id: "galaxy-watch", nome: "Galaxy Watch" }, { id: "galaxy-buds", nome: "Galaxy Buds" } ] },
   { id: "garmin", nome: "Garmin", tipos: [ { id: "relogios", nome: "Relógios" } ] },
   { id: "dji", nome: "DJI", tipos: [ { id: "drones", nome: "Drones" }, { id: "osmo", nome: "Osmo" } ] }
 ];
