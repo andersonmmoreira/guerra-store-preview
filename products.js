@@ -167,6 +167,7 @@ ATUALIZACOES.forEach(atualizacao => {
   ["16pro", "iPhone 16 Pro", "128 GB", 5499, 5999],
   ["17e", "iPhone 17e", "256 GB", 4499, 4999],
   ["17", "iPhone 17", "256 GB", 5799, 6499],
+  ["17air", "iPhone 17 Air", "256 GB", 5999, 6999],
   ["ipad10", "iPad 10", "256 GB", 3499, 3999],
   ["ipad11", "iPad 11 (2024)", "128 GB", 3299, 3999],
   ["ipad11", "iPad 11 (2024)", "256 GB", 3999, 4499],
