@@ -63,3 +63,4 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
   .slide .im{height:clamp(240px,64vw,340px)}
   .slide .im img.offer-art-cutout:not(.offer-logo){inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);transform:none;object-fit:contain;object-position:center}
 }
+@media(max-width:720px){header nav{display:flex;flex-wrap:wrap;gap:5px;overflow:visible}header nav a{padding:9px 11px;font-size:12px}header .wrap{row-gap:9px}}
