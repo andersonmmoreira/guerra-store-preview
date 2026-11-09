@@ -82,5 +82,77 @@ window.NOVOS = [
 
 // Estoque Guerra pendente de confirmação. Não reutilizar a lista real da AM Tech.
 window.SEMI_LISTA = [];
-// Catálogo herdado apenas para testar navegação, modelos, cores e armazenamento.
-window.NOVOS.forEach(p => { p.bg = "#16080c"; p.preview = true; });
+
+// Catálogo e preços informados pela Guerra Store em 08/11/2026.
+// `preco: null` significa que o valor deve ser consultado. `aPartir` preserva a condição comercial recebida.
+COR.Space = "#2A2A2C";
+COR["Star White"] = "#EEF0F2";
+COR["Night Sky"] = "#1C2740";
+const OPT = (nome, preco, nomesCores, aPartir = false, precosCor = null) => ({
+  nome, preco, aPartir, precosCor, cores: cores(...nomesCores)
+});
+const SKU = (nome, versao, ...armaz) => ({ nome, ...(versao ? { versao } : {}), armaz });
+const ATUALIZACOES = [
+  { id: "duo", modelos: [SKU("iPhone Duo", "", OPT("256 GB", 17999, ["Star White", "Night Sky"]), OPT("512 GB", 18999, ["Star White", "Night Sky"]), OPT("1 TB", null, ["Star White", "Night Sky"]), OPT("2 TB", null, ["Star White", "Night Sky"]))] },
+  { id: "17pro", modelos: [
+    SKU("iPhone 17 Pro", "EUA", OPT("256 GB", 7499, ["Laranja", "Azul", "Branco"], true), OPT("512 GB", 8799, ["Laranja", "Azul", "Branco"], true), OPT("1 TB", null, ["Laranja", "Azul", "Branco"]), OPT("2 TB", null, ["Laranja", "Azul", "Branco"])),
+    SKU("iPhone 17 Pro Max", "EUA", OPT("256 GB", 7999, ["Laranja", "Azul", "Branco"], true), OPT("512 GB", 9499, ["Laranja", "Azul", "Branco"], true), OPT("1 TB", null, ["Laranja", "Azul", "Branco"]), OPT("2 TB", null, ["Laranja", "Azul", "Branco"]))
+  ] },
+  { id: "18pro", modelos: [
+    SKU("iPhone 18 Pro", "Brasil", OPT("256 GB", 8499, ["Azul", "Bordô", "Branco", "Preto"]), OPT("512 GB", 9999, ["Azul", "Bordô", "Branco", "Preto"]), OPT("1 TB", null, ["Azul", "Bordô", "Branco", "Preto"]), OPT("2 TB", null, ["Azul", "Bordô", "Branco", "Preto"])),
+    SKU("iPhone 18 Pro Max", "Brasil", OPT("256 GB", 9499, ["Azul", "Bordô", "Branco", "Preto"], true), OPT("512 GB", 11499, ["Azul", "Bordô", "Branco", "Preto"], true), OPT("1 TB", null, ["Azul", "Bordô", "Branco", "Preto"]), OPT("2 TB", null, ["Azul", "Bordô", "Branco", "Preto"]))
+  ] },
+  { id: "17", modelos: [SKU("iPhone 17", "EUA", OPT("256 GB", 5799, ["Azul", "Verde", "Preto", "Roxo", "Branco"]))] },
+  { id: "17air", modelos: [SKU("iPhone 17 Air", "EUA", OPT("256 GB", 5999, ["Azul", "Branco", "Gold", "Preto"]))] },
+  { id: "17e", modelos: [SKU("iPhone 17e", "Brasil", OPT("256 GB", 4499, ["Preto", "Branco", "Rosa"]))] },
+  { id: "16pro", modelos: [SKU("iPhone 16 Pro", "Brasil", OPT("128 GB", 5499, ["Natural", "Preto", "Desert"]))] },
+  { id: "16", modelos: [SKU("iPhone 16", "Brasil", OPT("128 GB", 4499, ["Rosa", "Branco", "Azul", "Verde"]), OPT("256 GB", 4999, ["Branco", "Preto"]))] },
+  { id: "15pro", modelos: [
+    SKU("iPhone 15 Pro CPO", "Brasil", OPT("256 GB", 5299, ["Branco", "Azul", "Preto"])),
+    SKU("iPhone 15 Pro Max", "Brasil", OPT("256 GB", 5999, ["Preto", "Natural", "Branco", "Azul"]))
+  ] },
+  { id: "15", modelos: [
+    SKU("iPhone 15", "Brasil", OPT("128 GB", 4299, ["Preto", "Azul"])),
+    SKU("iPhone 15 CPO", "Brasil", OPT("256 GB", 4499, ["Verde", "Azul", "Preto"]))
+  ] },
+  { id: "14promax", modelos: [SKU("iPhone 14 Pro Max", "Brasil", OPT("128 GB", 4499, ["Roxo", "Preto", "Gold"]), OPT("256 GB", 4999, ["Roxo", "Preto"]))] },
+  { id: "14", modelos: [SKU("iPhone 14", "Brasil", OPT("128 GB", 3999, ["Roxo", "Azul", "Preto", "Branco"]))] },
+  { id: "13", modelos: [SKU("iPhone 13", "Brasil", OPT("128 GB", 3499, ["Preto", "Branco"]))] },
+  { id: "ipad10", modelos: [SKU("iPad 10", "", OPT("256 GB", 3499, ["Rosa"]))] },
+  { id: "ipad11", modelos: [SKU("iPad 11 (2024)", "", OPT("128 GB", 3299, ["Rosa", "Azul", "Branco"]), OPT("256 GB", 3999, ["Azul", "Rosa", "Branco"]))] },
+  { id: "ipadair11m3", modelos: [SKU("iPad Air 11\" M3 (2025)", "", OPT("128 GB", 4999, ["Starlight", "Azul", "Roxo"]))] },
+  { id: "ipadair11m4", modelos: [SKU("iPad Air 11\" M4 (2025)", "", OPT("128 GB", 5499, ["Azul", "Roxo", "Preto", "Starlight"]), OPT("256 GB", 6999, ["Roxo", "Azul", "Preto", "Starlight"]))] },
+  { id: "ipadair13m4", modelos: [SKU("iPad Air 13\" M4 (2025)", "", OPT("128 GB", 6999, ["Azul", "Roxo"]), OPT("256 GB", 7999, ["Azul", "Starlight", "Preto"]))] },
+  { id: "ipadpro", modelos: [SKU("iPad Pro 11\" M5 (2025)", "", OPT("256 GB", 8499, ["Branco", "Preto"])), SKU("iPad Pro 13\" M5 (2025)", "", OPT("256 GB", 9499, ["Preto", "Branco"]))] },
+  { id: "macmini", modelos: [SKU("Mac mini M6", "", OPT("16 GB / 256 GB", 7999, ["Silver"], true))] },
+  { id: "macneo", modelos: [SKU("Mac Neo 13,3\"", "", OPT("8 GB / 256 GB", 5499, ["Citrus", "Silver", "Índigo", "Blush"], true), OPT("8 GB / 512 GB", 6499, ["Citrus", "Silver", "Índigo", "Blush"], true))] },
+  { id: "macair", modelos: [SKU("MacBook Air M5 13,6\"", "", OPT("16 GB / 512 GB", 8999, ["Midnight", "Silver", "Sky Blue", "Starlight"])), SKU("MacBook Air M5 15\"", "", OPT("16 GB / 512 GB", 10999, ["Midnight", "Sky Blue", "Starlight", "Silver"]))] },
+  { id: "macpro14", modelos: [
+    SKU("MacBook Pro 14\" M5", "", OPT("16 GB / 1 TB", 13999, ["Silver", "Midnight"])),
+    SKU("MacBook Pro 14\" M5 Pro", "", OPT("24 GB / 1 TB", null, ["Space", "Silver"], false, { Space: 15999, Silver: 17999 }))
+  ] },
+  { id: "imac", modelos: [SKU("iMac 24\" M4", "", OPT("16 GB / 256 GB", 14499, ["Silver"]))] },
+  { id: "watchse2", modelos: [SKU("Apple Watch SE 2ª Geração", "", OPT("44 mm", 1799, ["Midnight"]))] },
+  { id: "watchse3", modelos: [SKU("Apple Watch SE 3ª Geração", "", OPT("40 mm", 1999, ["Midnight"]), OPT("44 mm", 2199, ["Midnight", "Starlight"]))] },
+  { id: "watch10", modelos: [SKU("Apple Watch Series 10", "", OPT("46 mm", 2499, ["Rose Gold"]))] },
+  { id: "watch11", modelos: [SKU("Apple Watch Series 11", "", OPT("42 mm", 2699, ["Rose Gold", "Jet Black", "Space Gray", "Silver"]), OPT("46 mm", 2999, ["Rose Gold", "Jet Black", "Space Gray", "Silver"]))] },
+  { id: "ultra3", modelos: [SKU("Apple Watch Ultra 3", "", OPT("49 mm", 4999, ["Preto"]))] },
+  { id: "ultra4", modelos: [SKU("Apple Watch Ultra 4", "", OPT("49 mm", 6999, ["Preto"]))] },
+  { id: "airpodsmax2", modelos: [SKU("AirPods Max 2 (2026)", "", OPT("USB-C", 4299, ["Branco", "Preto"]))] },
+  { id: "airpodspro3", modelos: [SKU("AirPods Pro 3", "", OPT("USB-C", 1799, ["Branco"]))] },
+  { id: "fonte20", modelos: [SKU("Fonte USB-C 20W", "", OPT("20 W", 199, ["Branco"]))] }
+];
+ATUALIZACOES.forEach(atualizacao => {
+  const produto = window.NOVOS.find(p => p.id === atualizacao.id);
+  if (!produto) return;
+  produto.modelos = atualizacao.modelos;
+  if (produto.modelos.length === 1) produto.nome = produto.modelos[0].nome;
+  const mapa = new Map();
+  produto.modelos.forEach(modelo => modelo.armaz.forEach(opcao => (opcao.cores || []).forEach(cor => mapa.set(cor[0], cor))));
+  if (mapa.size) produto.cores = [...mapa.values()];
+});
+
+window.NOVOS.forEach(p => {
+  p.bg = "#16080c";
+  p.preview = !p.modelos.some(m => m.armaz.some(a => typeof a === "object" && (a.preco != null || a.precosCor)));
+});

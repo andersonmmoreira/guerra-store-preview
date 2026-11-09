@@ -87,17 +87,22 @@ function openNovo(p){
   let mi=0,ci=0,ai=0;
   openOv(`<div class="media"><div class="main" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}">`:`<div class="noimg">${esc(p.nome)}</div>`}</div></div>
   <div class="info"><div><div class="eyebrow" style="font-size:11px">NOVO</div><h2 style="margin-top:8px">${esc(p.nome)}</h2></div>
-  <p class="obs" id="o-ver" hidden></p>
+  <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>
   ${p.modelos.length>1?'<div class="opt"><label>Modelo</label><div class="chips" id="o-m"></div></div>':""}
   <div class="opt"><label>Cor</label><div class="chips" id="o-c"></div></div>
   <div class="opt"><label>Armazenamento</label><div class="chips" id="o-a"></div></div>
   <button class="buy" id="buy">Consultar no WhatsApp ${ARROW}</button>
-  <div class="note">Modelo ilustrativo. Confirme disponibilidade, valor e entrega pelo WhatsApp.</div></div>`);
+  <div class="note">${p.preview?"Modelo ilustrativo. ":""}Confirme disponibilidade e condições de pagamento pelo WhatsApp.</div></div>`);
   const showVer=()=>{const v=p.modelos[mi].versao,e=$("#o-ver");e.hidden=!v;e.textContent=v?(VER[v]||v):""};
-  const drawA=()=>chips($("#o-a"),p.modelos[mi].armaz.map(t=>({t})),i=>ai=i,0);
-  if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},0);
-  chips($("#o-c"),p.cores.map(c=>({t:c[0],c:c[1]})),i=>ci=i,0); drawA(); showVer();
-  $("#buy").onclick=()=>buy(`${p.modelos[mi].nome} ${p.cores[ci][0]} ${p.modelos[mi].armaz[ai]}${p.modelos[mi].versao?", versão "+(p.modelos[mi].versao==="EUA"?"EUA (chip virtual)":"Brasil (Anatel, com chip)"):""} (novo)`,"");
+  const storage=()=>p.modelos[mi].armaz[ai], storageTxt=()=>typeof storage()==="string"?storage():storage().nome;
+  const availableColors=()=>typeof storage()==="object"&&storage().cores?.length?storage().cores:p.cores;
+  const currentPrice=()=>{const a=storage(),cor=availableColors()[ci]?.[0];if(typeof a==="string")return null;return a.precosCor?.[cor]??a.preco??null};
+  const showPrice=()=>{const a=storage(),v=currentPrice(),e=$("#o-price");e.textContent=v!=null?`${a.aPartir?"A partir de ":""}${brl(v)}`:"Consulte disponibilidade"};
+  const drawC=()=>{ci=0;chips($("#o-c"),availableColors().map(c=>({t:c[0],c:c[1]})),i=>{ci=i;showPrice()},0)};
+  const drawA=()=>{ai=0;chips($("#o-a"),p.modelos[mi].armaz.map(a=>({t:typeof a==="string"?a:a.nome})),i=>{ai=i;drawC()},0)};
+  if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},0); else drawA();
+  showVer();
+  $("#buy").onclick=()=>{const cor=availableColors()[ci][0],valor=currentPrice();buy(`${p.modelos[mi].nome} ${cor} ${storageTxt()}${valor!=null?" por "+brl(valor):""}${p.modelos[mi].versao?", versão "+(p.modelos[mi].versao==="EUA"?"EUA (chip virtual)":"Brasil (Anatel, com chip)"):""} (novo)`,"")};
 }
 function openSemi(p){
   const ms=p.midia||[];
@@ -136,11 +141,15 @@ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",mou
 
 /* ---------- cartoes reutilizaveis (inicio e estoque) ---------- */
 const VER={"Brasil":"Versão brasileira, homologada pela Anatel, com chip físico.","EUA":"Versão americana, somente chip virtual (eSIM)."};
+const brl=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2});
+function menorPreco(p){const vs=[];p.modelos.forEach(m=>m.armaz.forEach(a=>{if(typeof a!=="object")return;if(a.preco!=null)vs.push({valor:a.preco,aPartir:a.aPartir});if(a.precosCor)Object.values(a.precosCor).forEach(v=>vs.push({valor:v,aPartir:false}))}));if(!vs.length)return null;const min=Math.min(...vs.map(x=>x.valor));return {valor:min,aPartir:vs.some(x=>x.valor===min&&x.aPartir)||vs.some(x=>x.valor>min)}}
 function verTxt(p){const v=[...new Set(p.modelos.map(m=>m.versao).filter(Boolean))];return v.length?"versão "+v.join(" e "):"escolha o armazenamento"}
 function cardNovo(p){
   const b=document.createElement("button"); b.className="card";
-  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${C.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
+  const mp=menorPreco(p);
+  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
   <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}</div>
+  <div class="card-price">${mp?`${mp.aPartir?"A partir de ":""}${brl(mp.valor)}`:"Consulte disponibilidade"}</div>
   <div class="dots">${p.cores.map(c=>`<i style="background:${c[1]}" title="${esc(c[0])}"></i>`).join("")}</div>
   <div class="cta-row"><span>Ver opções</span>${ARROW}</div></div>`;
   b.onclick=()=>openNovo(p); return b;
