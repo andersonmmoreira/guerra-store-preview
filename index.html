@@ -57,8 +57,8 @@
 <div class="ov" id="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
 <script src="config.js?v=20261108-4"></script>
-<script src="products.js?v=20261109-1"></script>
-<script src="app.js?v=20261109-2"></script>
+<script src="products.js?v=20261109-2"></script>
+<script src="app.js?v=20261109-3"></script>
 <script>
 const $d=document.getElementById.bind(document);
 let NOVID=[],PARC=[],hDemo=false;
@@ -87,6 +87,6 @@ function renderPar(){
 renderDest();
 Promise.all([loadSemi(),loadOfertas(),loadHome()]).then(()=>{renderOfertas();renderNovid();renderDest();renderPar()});
 </script>
-<script src="studio.js?v=20261109-2" defer></script>
+<script src="studio.js?v=20261109-3" defer></script>
 </body>
 </html>

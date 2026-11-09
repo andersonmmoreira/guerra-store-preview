@@ -2,7 +2,8 @@ const C=window.GUERRA, $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ARROW='<span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#070102" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
 const hasPhoneGift=p=>/\biphone\b/i.test(typeof p==="string"?p:p?.nome||p?.titulo||"");
-const phoneGift=p=>hasPhoneGift(p)?'<div class="phone-gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h18v4H3zM5 12v9h14v-9M12 8v13"/><path d="M12 8H8.5A2.5 2.5 0 1 1 11 5.5L12 8Zm0 0h3.5A2.5 2.5 0 1 0 13 5.5L12 8Z"/></svg><span class="phone-gift-copy"><small>VOCÊ GANHA</small><strong>Capinha + película</strong></span><span class="phone-gift-free">GRÁTIS</span></div>':"";
+const giftFor=p=>p?.brinde||(hasPhoneGift(p)?"Capinha + película":"");
+const phoneGift=p=>giftFor(p)?'<div class="phone-gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h18v4H3zM5 12v9h14v-9M12 8v13"/><path d="M12 8H8.5A2.5 2.5 0 1 1 11 5.5L12 8Zm0 0h3.5A2.5 2.5 0 1 0 13 5.5L12 8Z"/></svg><span class="phone-gift-copy"><small>VOCÊ GANHA</small><strong>'+esc(giftFor(p))+'</strong></span><span class="phone-gift-free">GRÁTIS</span></div>':"";
 let SEMI=[], demo=false, tab="novos";
 
 /* ---------- dados dos semi novos ---------- */
@@ -92,7 +93,7 @@ function chips(el,items,onpick,sel=0){
 function openNovo(p,modeloInicial=0){
   let mi=Math.min(Math.max(modeloInicial,0),p.modelos.length-1),ci=0,ai=0;
   openOv(`<div class="media"><div class="main" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}">`:`<div class="noimg">${esc(p.nome)}</div>`}</div></div>
-  <div class="info"><div><div class="eyebrow" style="font-size:11px">NOVO</div><h2 style="margin-top:8px">${esc(p.nome)}</h2></div>
+  <div class="info"><div><div class="eyebrow" style="font-size:11px">${p.lacrado?"LACRADO":"NOVO"}</div><h2 style="margin-top:8px">${esc(p.nome)}</h2></div>
   <p class="obs" id="o-ver" hidden></p><div class="product-price" id="o-price"></div>${phoneGift(p)}
   ${p.modelos.length>1?'<div class="opt"><label>Modelo</label><div class="chips" id="o-m"></div></div>':""}
   <div class="opt"><label>Cor</label><div class="chips" id="o-c"></div></div>
@@ -108,7 +109,7 @@ function openNovo(p,modeloInicial=0){
   const drawA=()=>{ai=0;chips($("#o-a"),p.modelos[mi].armaz.map(a=>({t:typeof a==="string"?a:a.nome})),i=>{ai=i;drawC()},0)};
   if(p.modelos.length>1) chips($("#o-m"),p.modelos.map(m=>({t:m.nome+(m.versao?" · "+m.versao:"")})),i=>{mi=i;drawA();showVer()},mi); else drawA();
   showVer();
-  $("#buy").onclick=()=>{const cor=availableColors()[ci][0],valor=currentPrice();buy(`${p.modelos[mi].nome} ${cor} ${storageTxt()}${valor!=null?" por "+brl(valor):""}${p.modelos[mi].versao?", versão "+(p.modelos[mi].versao==="EUA"?"EUA (chip virtual)":"Brasil (Anatel, com chip)"):""} (novo)`,"")};
+  $("#buy").onclick=()=>{const cor=availableColors()[ci][0],valor=currentPrice();buy(`${p.modelos[mi].nome} ${cor} ${storageTxt()}${valor!=null?" por "+brl(valor):""}${p.modelos[mi].versao?", versão "+(p.modelos[mi].versao==="EUA"?"EUA (chip virtual)":"Brasil (Anatel, com chip)"):""} (novo)`,"",p.brinde)};
 }
 function openSemi(p){
   const ms=p.midia||[];
@@ -128,8 +129,8 @@ function openSemi(p){
 }
 
 /* ---------- compra: mensagem pronta + abre o WhatsApp ---------- */
-function buy(item,ref){
-  const msg=`Olá, Guerra Store! Gostaria de consultar o ${item}.${ref?` (Ref ${ref})`:""} Ainda está disponível?${hasPhoneGift(item)?" Quero também a capinha e a película grátis.":""}`;
+function buy(item,ref,brinde=""){
+  const msg=`Olá, Guerra Store! Gostaria de consultar o ${item}.${ref?` (Ref ${ref})`:""} Ainda está disponível?${brinde?" Quero também o brinde: "+brinde+" grátis.":hasPhoneGift(item)?" Quero também a capinha e a película grátis.":""}`;
   window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 }
 function fallback(msg,done){const t=document.createElement("textarea");t.value=msg;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}t.remove();done(ok)}
@@ -154,7 +155,7 @@ function verTxt(p){const v=[...new Set(p.modelos.map(m=>m.versao).filter(Boolean
 function cardNovo(p){
   const b=document.createElement("button"); b.className="card";
   const mp=menorPreco(p);
-  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.consultaPreco?"CONSULTE O VALOR":p.preview?"MODELO ILUSTRATIVO":"Novo"}</span></div>
+  b.innerHTML=`<div class="ph fit" style="background:${p.bg}">${p.img?`<img src="${p.img}" alt="${esc(p.nome)}" loading="lazy">`:`<div class="noimg">${esc(p.nome)}</div>`}<span class="badge">${p.consultaPreco?"CONSULTE O VALOR":p.preview?"MODELO ILUSTRATIVO":p.lacrado?"LACRADO":"Novo"}</span></div>
   <div class="bd"><h3>${esc(p.nome)}</h3><div class="sub">${p.resumo?esc(p.resumo):`${p.cores.length} ${p.cores.length>1?"cores":"cor"} · ${verTxt(p)}`}</div>
   <div class="card-price">${mp?`${mp.anterior?`<s>${brl(mp.anterior)}</s>`:""}<strong>${mp.aPartir?"A partir de ":""}${brl(mp.valor)}</strong>`:"Consulte disponibilidade"}</div>
   <div class="dots">${p.cores.map(c=>`<i style="background:${c[1]}" title="${esc(c[0])}"></i>`).join("")}</div>

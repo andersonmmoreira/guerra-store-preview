@@ -8,5 +8,18 @@
     "fitbit": "https://lh3.googleusercontent.com/GQW6XnV0I3UoHeYavGSknIFJ3ywMSw2FJXFXf0fowFsg__HAbrpgIUAMk3iBVRw44b-jSVbv5AX8xQmkwtDlVLnTJDzKHT2oM-c=s3000-w3000-e365-rw-v0-nu",
     "watch12": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/watch-compare-series-12-202609?wid=1040&hei=1040&fmt=png-alpha"
   },
-  "treatment": "Official manufacturer photographs. Background removed using image_gen; framed and converted to WebP. Original product colors and design retained."
+  "treatment": "Official manufacturer photographs. Background removed using image_gen; framed and converted to WebP. Original product colors and design retained.",
+  "garmin_price_update_20261109": {
+    "165music": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en/products/010-02863-33/v/cf-xl",
+    "70": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en_GB/products/010-04307-00/v/cf-xl",
+    "170": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en_GB/products/010-03920-00/v/cf-xl",
+    "170music": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en_GB/products/010-03920-10/v/cf-xl",
+    "vivo5": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/es_ES/products/010-02862-10/v/cf-xl",
+    "265s": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en/products/010-02810-13/v/cf-xl",
+    "970": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en_GB/products/010-02969-10/v/cf-xl",
+    "venu4": "https://res.garmin.com/transform/image/upload/f_png,w_1200/v1/Product_Images/en/products/010-03014-00/v/cf-xl",
+    "55black": "https://www.garmin.com.sg/m/sg/g/products/forerunner-55-black-cf-lg.jpg",
+    "965": "https://www.garmin.com.sg/m/sg/g/products/forerunner965-white-cf-lg.jpg",
+    "vivo6": "https://www.garmin.com.sg/m/sg/g/products/vivoactive6-black-cf-lg.jpg"
+  }
 }

@@ -203,12 +203,28 @@ ATUALIZACOES.forEach(atualizacao => {
 // Relógios e pulseiras enviados pela Guerra Store em 09/11/2026.
 // Fotos oficiais recortadas; preços Garmin/Google aguardam informação da loja.
 window.NOVOS.push(
-  { id: "garmin165", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 165", img: "img/garmin-165.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 165", "Forerunner 165")] },
-  { id: "garmin265", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 265", img: "img/garmin-265.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 265", "Forerunner 265")] },
-  { id: "garmin55", linha: "garmin", tipo: "relogios", nome: "Garmin Forerunner 55", img: "img/garmin-55.webp", optLabel: "Versão", resumo: "Preto e branco · GPS para corrida", consultaPreco: true, cores: cores("Preto", "Branco"), modelos: [M("Garmin Forerunner 55", "Forerunner 55")] },
   { id: "garmincirqa", linha: "garmin", tipo: "pulseiras", nome: "Garmin CIRQA Smart Band", img: "img/garmin-cirqa.webp", optLabel: "Tamanho", resumo: "Preto · Pulseira inteligente sem tela", consultaPreco: true, cores: cores("Preto"), modelos: [M("Garmin CIRQA Smart Band", "S–M")] },
   { id: "fitbitair", linha: "google", tipo: "pulseiras", nome: "Google Fitbit Air", img: "img/google-fitbit-air.webp", optLabel: "Tamanho", resumo: "Preto · Pulseira inteligente sem tela", consultaPreco: true, cores: cores("Preto"), modelos: [M("Google Fitbit Air", "Consulte o tamanho")] },
   { id: "watch12", linha: "apple", tipo: "watch", nome: "Apple Watch Series 12", img: "img/watch12.webp", optLabel: "Tamanho", resumo: "42 e 46 mm · Cores sob consulta", cores: [["Consultar cores", "#A8A399"]], modelos: [{nome: "Apple Watch Series 12", armaz: [{nome: "42 mm", preco: 3499, precoAnterior: 3999}, {nome: "46 mm", preco: 3799, precoAnterior: 4499}]}] }
+);
+
+// Garmin lacrados: valores e cores aprovados pelo Anderson em 09/11/2026.
+COR['Lilás']='#B9A5C8';COR['Silver / Gray']='#A6A8AC';COR['Preto (2 pulseiras)']='#1A1A1C';
+const garminOferta=(id,nome,de,por,cs,img)=>({id:'garmin'+id,linha:'garmin',tipo:'relogios',nome:'Garmin '+nome,img:'img/garmin-'+img+'.webp',lacrado:true,brinde:'Película + protetor',optLabel:'Condição',resumo:cs.join(' · '),cores:cores(...cs),modelos:[{nome:'Garmin '+nome,armaz:[{nome:'Lacrado',preco:por,precoAnterior:de}]}]});
+window.NOVOS.push(
+  garminOferta("55","Forerunner 55",2499,1699,["Preto"],"55-black"),
+  garminOferta("165","Forerunner 165",2499,1999,["Branco"],"165"),
+  garminOferta("165music","Forerunner 165 Music",2999,2499,["Lilás"],"165music"),
+  garminOferta("70","Forerunner 70",2999,2299,["Branco", "Preto"],"70"),
+  garminOferta("170","Forerunner 170",2999,2499,["Preto"],"170"),
+  garminOferta("170music","Forerunner 170 Music",3499,2699,["Preto"],"170music"),
+  garminOferta("vivo5","vívoactive 5",2799,2299,["Branco", "Preto"],"vivo5"),
+  garminOferta("vivo6","vívoactive 6",2999,2499,["Preto", "Branco", "Rosa"],"vivo6"),
+  garminOferta("265","Forerunner 265",3499,2999,["Preto", "Branco"],"265"),
+  garminOferta("265s","Forerunner 265S",3499,2999,["Preto"],"265s"),
+  garminOferta("965","Forerunner 965",4499,3999,["Branco"],"965"),
+  garminOferta("970","Forerunner 970",5999,4799,["Gold", "Preto"],"970"),
+  garminOferta("venu4","Venu 4",4499,3799,["Silver / Gray", "Preto (2 pulseiras)", "Preto"],"venu4")
 );
 
 window.NOVOS.forEach(p => {

@@ -6,7 +6,7 @@ function getContent(el){
  const image=el.querySelector('img:not(.offer-logo)'),src=image?.getAttribute('src');
  const cutouts={'img/duo.jpg':'img/offer-duo-cutout.png','img/17pro.jpg':'img/offer-17pro-cutout.png','img/18pro.jpg':'img/offer-18pro-cutout.png'};
  const copy=clean(el.querySelector('.tx>p,.tip-slide>p,figcaption>span,.business-category>p')?.textContent),date=el.querySelector('time')?.textContent;
- return {title:clean(el.querySelector('h2,h3,figcaption strong')?.textContent)||'Guerra Store',image:cutouts[src]||src||(document.body.classList.contains('business-page')?'img/diego-guerra-biografia.jpg':''),price:clean(el.querySelector('.card-price strong,.offer-price strong')?.textContent),old:clean(el.querySelector('.card-price s,.offer-price s')?.textContent),copy:date?clean(date)+' · '+copy:copy,club:el.matches('.club-photo'),gift:!!el.querySelector('.phone-gift'),business:el.matches('.business-category')};
+ return {title:clean(el.querySelector('h2,h3,figcaption strong')?.textContent)||'Guerra Store',image:cutouts[src]||src||(document.body.classList.contains('business-page')?'img/diego-guerra-biografia.jpg':''),price:clean(el.querySelector('.card-price strong,.offer-price strong')?.textContent),old:clean(el.querySelector('.card-price s,.offer-price s')?.textContent),copy:date?clean(date)+' · '+copy:copy,club:el.matches('.club-photo'),gift:clean(el.querySelector('.phone-gift-copy strong')?.textContent),business:el.matches('.business-category')};
 }
 function updateTools(){
  if(!authenticated)return;layer.replaceChildren();const headerBottom=document.querySelector('header')?.getBoundingClientRect().bottom||0;
@@ -27,7 +27,7 @@ async function renderStory(data,headline){
  let y=1390;if(data.old){c.fillStyle='#bfa9b2';c.font='500 31px Inter,system-ui';c.fillText(data.old,76,y);const width=c.measureText(data.old).width;c.strokeStyle='#bfa9b2';c.lineWidth=2;c.beginPath();c.moveTo(76,y-10);c.lineTo(76+width,y-10);c.stroke();y+=75}
  if(data.price){lines(c,data.price,76,y,928,65,'#fff',2);y+=100}else if(!data.club&&!data.copy){lines(c,'Consulte disponibilidade',76,y,928,43,'#fff',2);y+=75}
  if(data.copy)lines(c,data.copy,76,y+15,928,30,'#d5c3cc',3);
- if(data.gift){c.fillStyle='#dfc594';c.font='600 28px Inter,system-ui';c.fillText('CAPINHA + PELÍCULA GRÁTIS',76,1695)}
+ if(data.gift){c.fillStyle='#dfc594';c.font='600 28px Inter,system-ui';c.fillText((data.gift+' grátis').toLocaleUpperCase('pt-BR'),76,1695)}
  c.strokeStyle='#986778';c.lineWidth=1;c.beginPath();c.moveTo(76,1750);c.lineTo(1004,1750);c.stroke();c.fillStyle='#fff';c.font='600 29px Inter,system-ui';c.fillText(data.club?'FAÇA PARTE DESSA HISTÓRIA':data.business?'CONVERSE COM DIEGO':'FALE COM A GUERRA',76,1810);c.font='400 25px Inter,system-ui';c.fillStyle='#d5c3cc';c.fillText(data.business?'WhatsApp (85) 99611-9154':'@guerrastore · WhatsApp (85) 99611-9154',76,1860);
  return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Falha ao exportar a arte.')),'image/png'));
 }
