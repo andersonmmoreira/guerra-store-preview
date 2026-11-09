@@ -45,3 +45,5 @@ nav a[aria-current=page]{background:var(--bordo);color:#fff;border-color:#b7384e
 .club-photo figcaption{position:static;padding:16px 8px 4px}
 .club-photo .club-media img{object-position:center;transform:none}
 .club-photo:hover .club-media img{transform:scale(1.025)}
+/* A máscara termina transparente em cada borda real da arte da linha 18. */
+.slide .im img.offer-art-feather[src*="offer-18pro"]:not(.offer-logo){inset:0;width:100%;height:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-composite:source-in;mask-composite:intersect}
